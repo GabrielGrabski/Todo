@@ -7,5 +7,6 @@ target 'Todo' do
 
   # Pods for Todo
 pod 'SnapKit', '~> 5.0.0'
-
+pod 'FirebaseAuth'
+pod 'FirebaseFirestore'
 end
