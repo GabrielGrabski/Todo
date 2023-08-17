@@ -1,0 +1,10 @@
+# Xcode
+.DS_Store
+xcuserdata/
+*.xccheckout
+*.xcworkspace
+!*.xcworkspace/contents.xcworkspacedata
+
+# Compiled source
+/DerivedData
+/build/
