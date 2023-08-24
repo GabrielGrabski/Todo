@@ -15,6 +15,7 @@
 		5C3266702A8835F200235C89 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32666F2A8835F200235C89 /* TaskView.swift */; };
 		5C3266772A886CF500235C89 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3266762A886CF500235C89 /* CustomTextField.swift */; };
 		5C53DE2E2A8EE23B00344A7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C53DE2D2A8EE23B00344A7B /* GoogleService-Info.plist */; };
+		5C53DE312A8F0A3F00344A7B /* HomeViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C53DE302A8F0A3F00344A7B /* HomeViewService.swift */; };
 		5C5556BE2A85BEBD00069D58 /* HomeButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5556BD2A85BEBD00069D58 /* HomeButtonProtocol.swift */; };
 		5C5556C02A85C05D00069D58 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5556BF2A85C05D00069D58 /* HomeViewModel.swift */; };
 		5C5556C62A85C43B00069D58 /* HomeTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5556C52A85C43B00069D58 /* HomeTaskTableViewCell.swift */; };
@@ -37,6 +38,7 @@
 		5C32666F2A8835F200235C89 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		5C3266762A886CF500235C89 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		5C53DE2D2A8EE23B00344A7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C53DE302A8F0A3F00344A7B /* HomeViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewService.swift; sourceTree = "<group>"; };
 		5C5556BD2A85BEBD00069D58 /* HomeButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonProtocol.swift; sourceTree = "<group>"; };
 		5C5556BF2A85C05D00069D58 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		5C5556C52A85C43B00069D58 /* HomeTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTaskTableViewCell.swift; sourceTree = "<group>"; };
@@ -149,6 +151,14 @@
 			path = TextField;
 			sourceTree = "<group>";
 		};
+		5C53DE2F2A8F0A2D00344A7B /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5C53DE302A8F0A3F00344A7B /* HomeViewService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		5C5556BC2A85BEA700069D58 /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +236,7 @@
 		5CCC480F2A845B5500AF04F4 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				5C53DE2F2A8F0A2D00344A7B /* Service */,
 				5C5556C12A85C40700069D58 /* Cell */,
 				5C5556BC2A85BEA700069D58 /* Delegate */,
 				5CCC48132A845B7100AF04F4 /* Controller */,
@@ -384,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C3266652A87B5C900235C89 /* HomeTaskCellView.swift in Sources */,
+				5C53DE312A8F0A3F00344A7B /* HomeViewService.swift in Sources */,
 				5CCC48002A845A4500AF04F4 /* HomeViewController.swift in Sources */,
 				5C2E66A62A8AFEF800B10EA3 /* TaskProtocol.swift in Sources */,
 				5C5556C02A85C05D00069D58 /* HomeViewModel.swift in Sources */,

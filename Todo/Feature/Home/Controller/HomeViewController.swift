@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class HomeViewController: UIViewController {
     
-    public var homeView: HomeView? = HomeView()
+    private var homeView: HomeView?
     private var viewModel: HomeViewModel?
     private var taskViewController: TaskViewController?
+    private var homeService: HomeViewService?
+    private var tasks: [Task] = []
     
     override func loadView() {
+        homeView = HomeView()
         view = homeView
     }
     
@@ -23,8 +27,8 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        reloadData()
         navigationController?.isNavigationBarHidden = true
-        reloadTasks()
     }
     
     private func setup() {
@@ -32,6 +36,7 @@ class HomeViewController: UIViewController {
         setupHomeButtonDelegate()
         setupHomeTaskTableViewDelegate()
         setupTaskController()
+        setupService()
     }
     
     private func setupViewModel() {
@@ -50,9 +55,19 @@ class HomeViewController: UIViewController {
         taskViewController = TaskViewController()
     }
     
-    public func reloadTasks() {
-        self.homeView?.taskTableView.reloadData()
+    private func setupService() {
+        homeService = HomeViewService()
     }
+    
+    private func reloadData() {
+        homeService?.fetchTasks{ tasks in
+            self.tasks = tasks
+            DispatchQueue.main.async {
+                self.homeView?.taskTableView.reloadData()
+            }
+        }
+    }
+    
 }
 
 extension HomeViewController: HomeButtonProtocol {
@@ -68,12 +83,12 @@ extension HomeViewController: HomeButtonProtocol {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.getNumberOfRows() ?? 0
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = viewModel?.getCell(tableView: tableView, indexPath: indexPath) as? HomeTaskTableViewCell else { return UITableViewCell() }
-        let task = viewModel?.loadCurrentTask(indexPath) ?? Task()
+        let task = tasks[indexPath.row]
         cell.setupCellInfo(task: task)
         return cell
     }
@@ -84,8 +99,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let controller = taskViewController {
-            controller.setupTask(task: viewModel?.loadCurrentTask(indexPath) ?? Task())
+            let task = tasks[indexPath.row]
+            controller.setupTask(task: task)
             navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let task = tasks[indexPath.row]
+        let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+            self.homeService?.deleteTask(task.documentID ?? "")
+            self.tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            tableView.reloadData()
+        }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [deleteAction])
         }
     }
 }

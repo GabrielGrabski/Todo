@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Task {
+struct Task: Codable {
+    var documentID: String?
+    var id: String?
     var title: String?
     var description: String?
 }

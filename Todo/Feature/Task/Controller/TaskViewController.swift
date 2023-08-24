@@ -9,26 +9,25 @@ import UIKit
 
 class TaskViewController: UIViewController {
     
-    private var taskView: TaskView?
-    private var viewModel: TaskViewModel?
-    private var homeController: HomeViewController?
+    private var taskView: TaskView = TaskView()
+    private var viewModel: TaskViewModel = TaskViewModel()
+    private var homeController: HomeViewController = HomeViewController()
+    private var task: Task?
     
     override func loadView() {
-        taskView = TaskView()
-        homeController = HomeViewController()
         view = taskView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = TaskViewModel()
-        viewModel?.setupViewModel(createTaskView: taskView, createTaskViewController: self)
+        viewModel.setupViewModel(createTaskView: taskView, createTaskViewController: self)
         setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = false
-        navigationItem.rightBarButtonItem = taskView?.hideKeyboardButton
+        navigationItem.rightBarButtonItem = taskView.hideKeyboardButton
     }
     
     deinit {
@@ -36,16 +35,18 @@ class TaskViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
-        viewModel?.onShowKeyboard()
+        viewModel.onShowKeyboard()
     }
     
     @objc private func keyboardWillDisapear(_ notification: Notification) {
-        viewModel?.onHideKeyboard()
+        viewModel.onHideKeyboard()
     }
     
     public func setupTask(task: Task) {
-        taskView?.titleTextField.textField.text = task.title
-        taskView?.descriptionTextField.text = task.description
+        self.task = task
+        print(task)
+        taskView.titleTextField.textField.text = task.title
+        taskView.descriptionTextField.text = task.description
     }
     
     private func setup() {
@@ -59,7 +60,7 @@ class TaskViewController: UIViewController {
     }
     
     private func delegateCreateTaskProtocol() {
-        taskView?.delegateCreateTask(self)
+        taskView.delegateCreateTask(self)
     }
     
     private func addKeyboardWillAppearObserver() {
@@ -92,12 +93,21 @@ class TaskViewController: UIViewController {
 extension TaskViewController: TaskProtocol {
     
     func onTapSaveTaskButton(_ sender: UIButton) {
-        let title = taskView?.titleTextField.textField.text ?? ""
-        let description = taskView?.descriptionTextField.text ?? ""
-        viewModel?.saveTask(task: Task(title: title, description: description))
+        task?.title = taskView.titleTextField.textField.text
+        task?.description = taskView.descriptionTextField.text
+        
+        viewModel.saveTask(task: task ?? Task()) {
+            self.navigationController?.popViewController(animated: true)
+            self.clearTextFields()
+        }
+    }
+    
+    private func clearTextFields() {
+        taskView.descriptionTextField.text = ""
+        taskView.titleTextField.textField.text = ""
     }
     
     func onTapHideKeyboardButton(_ sender: UIButton) {
-        viewModel?.hideKeyboard()
+        viewModel.hideKeyboard()
     }
 }

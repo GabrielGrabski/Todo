@@ -8,15 +8,11 @@
 import Foundation
 import UIKit
 
-var list: [Task] = [
-    Task(title: "Mercado", description: "Teste \n Teste"),
-    Task(title: "Topicos ADS", description: "Teste \n Teste"),
-    Task(title: "Topicos Historia", description: "Teste \n Teste"),
-    Task(title: "Teste", description: "Teste \n Teste"),
-]
-
 class HomeViewModel {
-
+    
+    private var tasks: [Task] = []
+    private var service: HomeViewService = HomeViewService()    
+    
     public func getCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeTaskTableViewCell.identifier, for: indexPath)
         as? HomeTaskTableViewCell
@@ -26,14 +22,6 @@ class HomeViewModel {
     
     public func getCellHeight() -> CGFloat {
         return 60
-    }
-    
-    public func getNumberOfRows() -> Int {
-        return list.count
-    }
-    
-    public func loadCurrentTask(_ indexPath: IndexPath) -> Task {
-        return list[indexPath.row]
     }
     
     private func setupCellColor(_ cell: HomeTaskTableViewCell?, indexPath: IndexPath) {
